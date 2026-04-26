@@ -1,17 +1,23 @@
+body{
+    background-image: url(../pagina_inicial/background_paginicial.jpg);
+    background-size: cover;
+}
 a{
     text-decoration: none;
     color :black;
+    font-family: 'Press Start 2P', cursive;
 }
 .cabecalho{
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-    background-color: rgb(198, 122, 236);
 }
-.cabecalho img{
-    padding: 20px;
+.cabecalho div{
+    text-align: center;
+    font-size: larger;
+    font-family: 'Press Start 2P', cursive;
+    color: rgb(3, 3, 3)
 }
 .corpo{
     display: flex;
@@ -25,12 +31,13 @@ a{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(198, 122, 236);
-    border-radius: 5px;
+    text-decoration:underline;
     width: 500px;
     height: 100px;
 }
 .corpo div:hover{
     box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    background-color: cyan;
+    border-radius:5px;
     width: 550px;
 }
