@@ -1,0 +1,52 @@
+body{
+    text-align: center;
+}
+.cabecalho{
+    display: flex;
+}
+#titulo{
+    font-size: 50px;
+}
+#botao_voltar{
+    display: flex;
+    background-color: aqua;
+    color: aqua;
+    justify-content: center;
+}
+#botao_voltar:hover{
+    color: black;
+    width: 150px;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.criador{
+    text-decoration: underline;
+    font-size: larger;
+    padding-bottom: 50px;
+}
+.flex-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.flex-container div{
+    background-color: aqua;
+    width: 250px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+table{
+    border-style: solid;
+    border-color: black;
+}
+td{
+    border-style: solid;
+    border-color: black;
+}
+#tabela{
+    display: flex;
+    justify-content: center;
+    padding: 80px;
+}
