@@ -1,3 +1,4 @@
+//declaração das variaveis----------------------------------------------
 let canvas = document.getElementById("canvas1")
 let ctx = canvas.getContext("2d")
 
@@ -11,10 +12,21 @@ function quadrado(ctx,qua){
 
 function desenhar(){
     ctx.clearRect(0,0,600,400)
+    hitbox(ctx,obstaculo1)
     quadrado(ctx,personagem)
-    requestAnimationFrame(desenhar)// realiza a função a cada 0,5 segundos
+    requestAnimationFrame(desenhar)
 }
 
+function hitbox(ctx,obs){
+    quadrado(ctx,obs)
+    if(personagem.y == obs.y - personagem.h && personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w ){ //descida
+        vertical = 0
+        gravidade = 0
+        personagem.y = obs.y - personagem.h
+        chao = true
+    }
+}
+//-------personagens------------------------------------------------
 let personagem = {
     x : 40,
     y : 340,
@@ -22,7 +34,15 @@ let personagem = {
     h : 60,
     color : "yellow",
 }
-
+//--------objetos---------------------------------------------------------
+let obstaculo1 = {
+    x : 200,
+    y : 300,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+//---------pulo-------------------------------------------------------
 let vertical = 0;
 let gravidade = 0.1;
 let chao = true
@@ -50,7 +70,7 @@ function loop(){
 }
 
 loop()
-
+//pulo----------------------------------------------------------------
 document.addEventListener("keydown",function(evento){
     var tecla = evento.key;
     var velocidadey = 5 
