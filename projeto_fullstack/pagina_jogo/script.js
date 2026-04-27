@@ -11,38 +11,57 @@ function quadrado(ctx,qua){
 
 function desenhar(){
     ctx.clearRect(0,0,600,400)
-    quadrado(ctx,quadrado_teste)
-    requestAnimationFrame(desenhar)// realiza a função a cada 60 frames
+    quadrado(ctx,personagem)
+    requestAnimationFrame(desenhar)// realiza a função a cada 0,5 segundos
 }
 
-let quadrado_teste = {
+let personagem = {
     x : 40,
     y : 340,
     w : 40,
     h : 60,
-    color : "yellow"
+    color : "yellow",
 }
+
+let vertical = 0;
+let gravidade = 0.1;
+let chao = true
+
+function pulo(){ //inicializa o pulo
+    if(chao){
+        vertical = -6
+        chao = false
+    }
+}
+
+function pulo_ar(){ //prossegue com a ação do pulo
+    vertical += gravidade
+    personagem.y += vertical
+    if(personagem.y >= 340){ //descida
+        vertical = 0
+        personagem.y = 340
+        chao = true
+    }
+}
+
+function loop(){
+    pulo_ar()
+    requestAnimationFrame(loop)
+}
+
+loop()
+
 document.addEventListener("keydown",function(evento){
     var tecla = evento.key;
     var velocidadey = 5 
     var velocidadex = 5
-    var limite_pulo = 300
     //limita o personagem dentro do canvas
-    if(tecla == "s" && quadrado_teste.y == 340){velocidadey = 0}
-    if(tecla == "w" && quadrado_teste.y == 0){velocidadey = 0}
-    if(tecla == "a" && quadrado_teste.x == 0){velocidadex = 0}
-    if(tecla == "d" && quadrado_teste.x == 560){velocidadex = 0}
-    //pulo
-    if(tecla == "w"){
-        while(quadrado_teste.y>=280){
-            quadrado_teste.y -= velocidadey
-        }
-    }
-    //movimento
-    if(tecla == "d"){ quadrado_teste.x += velocidadex }
-    if(tecla == "a"){ quadrado_teste.x -= velocidadex }
-    if(tecla == "s"){ quadrado_teste.y += velocidadey }
+    if(personagem.y == 340){velocidadey = 0}
+    if(tecla == "a" && personagem.x == 0){velocidadex = 0}
+    if(tecla == "d" && personagem.x == 560){velocidadex = 0}
+    if(tecla == "w"){ pulo() }
+    if(tecla == "d"){ personagem.x += velocidadex }
+    if(tecla == "a"){ personagem.x -= velocidadex }
 })
-
 
 desenhar()
