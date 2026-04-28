@@ -56,12 +56,12 @@ let obstaculo2 = {
 }
 //---------pulo-------------------------------------------------------
 let vertical = 0;
-let gravidade = 0.1;
+let gravidade = 0.2;
 let chao = true
 
 function pulo(){ //inicializa o pulo
     if(chao){
-        vertical = -6
+        vertical = -8
         chao = false
     }
 }

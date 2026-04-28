@@ -2,6 +2,9 @@ body{
     background-image: url(../pagina_inicial/background_paginicial.jpg);
     background-size: cover;
 }
+p{
+    color: black;
+}
 a{
     text-decoration: none;
     color :black;

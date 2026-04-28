@@ -1,7 +1,7 @@
 body{
     text-align: center;
     font-family: 'Press Start 2P', cursive;
-    background-image: url(background.jpg);
+    background-image: url(background\ templo.avif);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -17,4 +17,8 @@ body{
 }
 p{
     padding-bottom: 30px;
+    color: aliceblue;
+}
+h1{
+    color: aliceblue;
 }
