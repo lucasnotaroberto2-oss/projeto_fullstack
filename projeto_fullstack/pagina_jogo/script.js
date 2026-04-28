@@ -13,17 +13,22 @@ function quadrado(ctx,qua){
 function desenhar(){
     ctx.clearRect(0,0,600,400)
     hitbox(ctx,obstaculo1)
+    hitbox(ctx,obstaculo2)
     quadrado(ctx,personagem)
     requestAnimationFrame(desenhar)
 }
 
 function hitbox(ctx,obs){
     quadrado(ctx,obs)
-    if(personagem.y == obs.y - personagem.h && personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w ){ //descida
-        vertical = 0
-        gravidade = 0
-        personagem.y = obs.y - personagem.h
-        chao = true
+    if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + 10 ){
+        if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
+            vertical = 0
+            personagem.y = obs.y - personagem.h // quando for atribuir um novo valor a uma variavel, 
+                                                // sempre usar o "=", e 
+                                                // deixar a variavel isolada de outros valores do lado
+                                                // esquerdo
+            chao = true
+        }
     }
 }
 //-------personagens------------------------------------------------
@@ -38,6 +43,13 @@ let personagem = {
 let obstaculo1 = {
     x : 200,
     y : 300,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let obstaculo2 = {
+    x : 300,
+    y : 250,
     w : 100,
     h : 20,
     color : "brown"
