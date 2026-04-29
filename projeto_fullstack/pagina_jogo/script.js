@@ -2,7 +2,7 @@
 let canvas = document.getElementById("canvas1")
 let ctx = canvas.getContext("2d")
 
-function quadrado(ctx,qua){
+function quadrado(qua){
     ctx.beginPath();
     ctx.lineWidth = 2;
     ctx.fillStyle = qua.color;
@@ -10,16 +10,34 @@ function quadrado(ctx,qua){
     ctx.closePath()
 }
 
+let contador_fases = 0
+
 function desenhar(){
     ctx.clearRect(0,0,600,400)
-    hitbox(ctx,obstaculo1)
-    hitbox(ctx,obstaculo2)
-    quadrado(ctx,personagem)
+    if(personagem.x >= 560 && contador_fases != 2){
+        contador_fases += 1
+        personagem.x = 10
+    }
+    else if(personagem.x <= 0 && contador_fases != 0){
+        contador_fases -= 1
+        personagem.x = 540
+    }
+    if(contador_fases == 0){
+        cenario_3()
+    }
+    if(contador_fases == 1){
+        cenario_2()
+    }
+    if(contador_fases == 2){
+        cenario_3()
+    }
+    quadrado(personagem)
+    //fazer pelo menos mais 2 cenarios
     requestAnimationFrame(desenhar)
 }
 
-function hitbox(ctx,obs){
-    quadrado(ctx,obs)
+function hitbox(obs){
+    quadrado(obs)
     if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + 10 ){
         if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
             vertical = 0
@@ -31,7 +49,28 @@ function hitbox(ctx,obs){
         }
     }
 }
-//-------personagens------------------------------------------------
+
+let mov = 2
+function armadilha_subida(obs,y){
+    quadrado(obs)
+    if(obs.y > y){mov = -4}
+    obs.y += mov
+}
+
+//-------mudança de cenario-----------------------------------------------
+
+function cenario_1(){
+    quadrado(habitante_vila)
+}
+function cenario_2(){
+    hitbox(obstaculo1)
+    hitbox(obstaculo2)
+    hitbox(obstaculo3)
+}
+function cenario_3(){
+    armadilha_subida(armadilha1,350)
+}
+//-------personagens------------------------------------------------------
 let personagem = {
     x : 40,
     y : 340,
@@ -39,7 +78,17 @@ let personagem = {
     h : 60,
     color : "yellow",
 }
+let habitante_vila = {
+    x : 450,
+    y : 340,
+    w : 40,
+    h : 60,
+    color : "blue",
+}
+
 //--------objetos---------------------------------------------------------
+
+//cenario 1
 let obstaculo1 = {
     x : 200,
     y : 300,
@@ -54,14 +103,29 @@ let obstaculo2 = {
     h : 20,
     color : "brown"
 }
-//---------pulo-------------------------------------------------------
+let obstaculo3 = {
+    x : 0,
+    y : 300,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+//cenario 2
+let armadilha1 = {
+    x : 350,
+    y : 400,
+    w : 30,
+    h : 100,
+    color : "grey"
+}
+//---------movimentação-------------------------------------------------------
 let vertical = 0;
-let gravidade = 0.2;
+let gravidade = 0.3;
 let chao = true
 
 function pulo(){ //inicializa o pulo
     if(chao){
-        vertical = -8
+        vertical = -9
         chao = false
     }
 }
@@ -82,15 +146,14 @@ function loop(){
 }
 
 loop()
-//pulo----------------------------------------------------------------
+
 document.addEventListener("keydown",function(evento){
     var tecla = evento.key;
-    var velocidadey = 5 
-    var velocidadex = 5
-    //limita o personagem dentro do canvas
-    if(personagem.y == 340){velocidadey = 0}
+    var velocidadey = 0
+    var velocidadex = 8
+    if(personagem.y == 340){velocidadey}
     if(tecla == "a" && personagem.x == 0){velocidadex = 0}
-    if(tecla == "d" && personagem.x == 560){velocidadex = 0}
+    if(tecla == "d" && personagem.x >= 560){velocidadex = 0}
     if(tecla == "w"){ pulo() }
     if(tecla == "d"){ personagem.x += velocidadex }
     if(tecla == "a"){ personagem.x -= velocidadex }
