@@ -38,6 +38,9 @@ function desenhar(){
         if(contador_fases == 4){
             cenario_4()
         }
+        if(contador_fases == 5){
+            cenario_5()
+        }
         quadrado(personagem)
     }
     else{
@@ -87,8 +90,29 @@ function armadilha_horizontal(obs,x1,x2){
         }
     }
 }
-
-//fazer mais uma armadilha que lança dados
+function lava(obs){
+    hitbox(obs)
+    if(personagem.y + personagem.h >= obs.y){
+        vida -= 1
+        personagem.y = 300 - personagem.h
+        personagem.x = 40
+    }
+}
+let x = 1
+function armadilha_dados(obs){
+    quadrado(obs)
+    obs.y += x
+    if(obs.y >= 400){
+        obs.y = 0
+    }
+    if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + 10 ){
+        if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
+            personagem.y = 300 - personagem.h
+            personagem.x = 40
+            vida -= 1
+        }
+    }
+}
 
 //-------mudança de cenario-----------------------------------------------
 
@@ -133,7 +157,7 @@ let armadilha1 = {
 //-------cenario2---------------------------------------------------------
 function cenario_2(){
     hitbox(obstaculo4)
-    armadilha_horizontal(armadilha3,20,540)
+    armadilha_horizontal(armadilha3,50,540)
     armadilha_horizontal(armadilha2,50,)
 }
 let armadilha2 = {
@@ -213,8 +237,8 @@ let plataforma4 = {
 let plataforma5 = {
     x : 460,
     y : 300,
-    w : 140,
-    h : 20,
+    w : 210,
+    h : 140,
     color : "brown"
 }
 let armadilha5 = {
@@ -226,7 +250,113 @@ let armadilha5 = {
 }
 //-------cenario4---------------------------------------------------------
 function cenario_4(){
-
+    hitbox(plat1)
+    hitbox(plat2)
+    lava(lava1)
+    hitbox(plat3)
+    armadilha_dados(dardo1)
+    armadilha_dados(dardo2)
+    armadilha_dados(dardo3)
+    armadilha_dados(dardo4)
+    armadilha_dados(dardo5)
+    hitbox(plat4)
+}
+let plat1 = {
+    x : 0,
+    y : 300,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let plat2 = {
+    x : 520,
+    y : 300,
+    w : 80,
+    h : 100,
+    color : "brown"
+}
+let lava1 = {
+    x : 0,
+    y : 380,
+    w : 520,
+    h : 20,
+    color : "orange"
+}
+let plat3 = {
+    x : 160,
+    y : 300,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let dardo1 = {
+    x : 120,
+    y : 0,
+    w : 10,
+    h : 10,
+    color : "green"
+}
+let dardo2 = {
+    x : 300,
+    y : 0,
+    w : 10,
+    h : 10,
+    color : "green"
+}
+let dardo3 = {
+    x : 340,
+    y : 0,
+    w : 10,
+    h : 10,
+    color : "green"
+}
+let dardo4 = {
+    x : 380,
+    y : 0,
+    w : 10,
+    h : 10,
+    color : "green"
+}
+let dardo5 = {
+    x : 420,
+    y : 0,
+    w : 10,
+    h : 10,
+    color : "green"
+}
+let plat4 = {
+    x : 270,
+    y : 250,
+    w : 190,
+    h : 20,
+    color : "brown"
+}
+//-------cenario5---------------------------------------------------------
+function cenario_5(){
+    hitbox(p1)
+    quadrado(altar)
+    quadrado(flor)
+}
+let p1 = {
+    x: 0,
+    y : 300,
+    w : 600,
+    h : 100,
+    color : "brown"
+}
+let altar = {
+    x : 270,
+    y : 270,
+    w : 60,
+    h : 30,
+    color : "grey"
+}
+let flor = {
+    x : 280,
+    y : 230,
+    w : 40,
+    h : 40,
+    color : "cyan"
 }
 //-------personagens------------------------------------------------------
 let personagem = {
@@ -251,7 +381,7 @@ let chao = true
 
 function pulo(){ //inicializa o pulo
     if(chao){
-        vertical = -7
+        vertical = -9
         chao = false
     }
 }
