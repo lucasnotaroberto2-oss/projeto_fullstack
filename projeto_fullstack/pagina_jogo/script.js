@@ -39,7 +39,6 @@ function desenhar(){
             cenario_4()
         }
         quadrado(personagem)
-        //fazer pelo menos mais 2 cenarios
     }
     else{
         vida += 3
@@ -88,6 +87,8 @@ function armadilha_horizontal(obs,x1,x2){
         }
     }
 }
+
+//fazer mais uma armadilha que lança dados
 
 //-------mudança de cenario-----------------------------------------------
 
