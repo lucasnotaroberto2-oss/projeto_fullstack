@@ -3,11 +3,12 @@ let canvas = document.getElementById("canvas1")
 let ctx = canvas.getContext("2d")
 
 function quadrado(qua){
-    ctx.beginPath();
-    ctx.lineWidth = 2;
-    ctx.fillStyle = qua.color;
-    ctx.fillRect(qua.x,qua.y,qua.w,qua.h);
-    ctx.closePath()
+    if(qua.img){
+        ctx.drawImage(qua.img, qua.x, qua.y, qua.w, qua.h)
+    } else {
+        ctx.fillStyle = qua.color
+        ctx.fillRect(qua.x, qua.y, qua.w, qua.h)
+    }
 }
 
 let contador_fases = 0
@@ -44,7 +45,7 @@ function desenhar(){
         quadrado(personagem)
     }
     else{
-        vida += 3
+        vida = 3
         contador_fases = 0
         personagem.x = 40
     }
@@ -359,12 +360,24 @@ let flor = {
     color : "cyan"
 }
 //-------personagens------------------------------------------------------
+let pose_padrao = new Image()
+pose_padrao.src = "../imagens_jogo/pose_padrao.png"
+
+let personagem_direita = new Image()
+personagem_direita.src = "../imagens_jogo/movimento_direita.png"
+
+let personagem_esquerda = new Image()
+personagem_esquerda.src = "../imagens_jogo/movimento_esquerda.png"
+
+let plo = new Image()
+plo.src = "../imagens_jogo/pulo.png"
+
 let personagem = {
     x : 40,
     y : 340,
     w : 40,
     h : 60,
-    color : "yellow",
+    img : pose_padrao
 }
 let habitante_vila = {
     x : 450,
@@ -383,6 +396,7 @@ function pulo(){ //inicializa o pulo
     if(chao){
         vertical = -9
         chao = false
+        personagem.img = plo
     }
 }
 
@@ -411,32 +425,40 @@ document.addEventListener("keydown",function(evento){
     if(tecla == "a" && personagem.x == 0){velocidadex = 0}
     if(tecla == "d" && personagem.x >= 560){velocidadex = 0}
     if(tecla == "w"){ pulo() }
-    if(tecla == "d"){ personagem.x += velocidadex }
-    if(tecla == "a"){ personagem.x -= velocidadex }
+    if(tecla == "d"){ 
+        personagem.x += velocidadex
+        personagem.img = personagem_direita
+    }
+    if(tecla == "a"){ 
+        personagem.x -= velocidadex
+        personagem.img = personagem_esquerda 
+    }
 })
 
 //sistema de vida
+let coracao = new Image()
+coracao.src = "../imagens_jogo/coracao.png"
 
 let vida1 = {
     x : 20,
     y : 20,
     w : 20,
     h : 20,
-    color : "red"
+    img : coracao
 }
 let vida2 = {
     x : 60,
     y : 20,
     w : 20,
     h : 20,
-    color : "red"
+    img : coracao
 }
 let vida3 = {
     x : 100,
     y : 20,
     w : 20,
     h : 20,
-    color : "red"
+    img : coracao
 }
 
 let vida = 3
