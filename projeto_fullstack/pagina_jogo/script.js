@@ -118,7 +118,30 @@ function armadilha_dados(obs){
 //-------mudança de cenario-----------------------------------------------
 
 function cenario_inicial(){
-    quadrado(habitante_vila)
+    quadrado(background1)
+    quadrado(logo1)
+}
+
+let b1 = new Image()
+b1.src = "../imagens_jogo/background_inicial.avif"
+
+let lo = new Image()
+lo.src = "../imagens_jogo/logo_projeto.png"
+
+let logo1 = {
+    x : 180,
+    y : 80,
+    w : 240,
+    h : 180,
+    img : lo
+}
+
+let background1 = {
+    x : 0,
+    y : 0,
+    w : 600,
+    h : 400,
+    img : b1
 }
 //-------cenario1---------------------------------------------------------
 function cenario_1(){
@@ -389,12 +412,12 @@ let habitante_vila = {
 
 //---------movimentação-------------------------------------------------------
 let vertical = 0;
-let gravidade = 0.2;
+let gravidade = 0.1;
 let chao = true
 
 function pulo(){ //inicializa o pulo
     if(chao){
-        vertical = -9
+        vertical = -5
         chao = false
         personagem.img = plo
     }

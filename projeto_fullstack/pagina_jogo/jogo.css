@@ -1,15 +1,14 @@
 body{
     text-align: center;
     font-family: 'Press Start 2P', cursive;
-    background-image: url(background\ templo.avif);
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: burlywood;
     background-attachment: fixed;
 }
 #canvas1{
     border-style: solid;
-    border-color: black;
+    border-color: beige;
     background-color: aliceblue;
+    margin-top: 70px;
 }
 #funcionamento{
     font-size: 20px;
