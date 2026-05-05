@@ -64,6 +64,9 @@ function hitbox(obs){
     }
 }
 
+let trap = new Image()
+trap.src = "../imagens_jogo/trap_espinho.png"
+
 let sub = 1
 function armadilha_subida(obs,y){
     hitbox(obs)
@@ -99,6 +102,9 @@ function lava(obs){
         personagem.x = 40
     }
 }
+let dardo = new Image()
+dardo.src = "../imagens_jogo/dardo_veneno.png"
+
 let x = 1
 function armadilha_dados(obs){
     quadrado(obs)
@@ -176,7 +182,7 @@ let armadilha1 = {
     y : 390,
     w : 30,
     h : 400,
-    color : "grey"
+    img : trap
 }
 //-------cenario2---------------------------------------------------------
 function cenario_2(){
@@ -221,7 +227,7 @@ let parede = {
     y : 200,
     w : 20,
     h : 210,
-    color : "grey"
+    img : trap
 }
 let armadilha4 = {
     x : 210,
@@ -278,12 +284,12 @@ function cenario_4(){
     hitbox(plat2)
     lava(lava1)
     hitbox(plat3)
+    hitbox(plat4)
     armadilha_dados(dardo1)
     armadilha_dados(dardo2)
     armadilha_dados(dardo3)
     armadilha_dados(dardo4)
     armadilha_dados(dardo5)
-    hitbox(plat4)
 }
 let plat1 = {
     x : 0,
@@ -316,37 +322,37 @@ let plat3 = {
 let dardo1 = {
     x : 120,
     y : 0,
-    w : 10,
-    h : 10,
-    color : "green"
+    w : 30,
+    h : 30,
+    img : dardo
 }
 let dardo2 = {
     x : 300,
     y : 0,
-    w : 10,
-    h : 10,
-    color : "green"
+    w : 30,
+    h : 30,
+    img : dardo
 }
 let dardo3 = {
     x : 340,
     y : 0,
-    w : 10,
-    h : 10,
-    color : "green"
+    w : 30,
+    h : 30,
+    img : dardo
 }
 let dardo4 = {
     x : 380,
     y : 0,
-    w : 10,
-    h : 10,
-    color : "green"
+    w : 30,
+    h : 30,
+    img : dardo
 }
 let dardo5 = {
     x : 420,
     y : 0,
-    w : 10,
-    h : 10,
-    color : "green"
+    w : 30,
+    h : 30,
+    img : dardo
 }
 let plat4 = {
     x : 270,
