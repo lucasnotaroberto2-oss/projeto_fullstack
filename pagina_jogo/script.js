@@ -1,7 +1,9 @@
 //declaração das variaveis----------------------------------------------
 let canvas = document.getElementById("canvas1")
 let ctx = canvas.getContext("2d")
+//---------imagens------------------------------------------------------
 
+//----------------------------------------------------------------------
 function quadrado(qua){
     if(qua.img){
         ctx.drawImage(qua.img, qua.x, qua.y, qua.w, qua.h)
@@ -11,6 +13,71 @@ function quadrado(qua){
     }
 }
 
+function hitbox(obs){
+    quadrado(obs)
+    if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + 10 ){
+        if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
+            vertical = 0
+            personagem.y = obs.y - personagem.h 
+            chao = true
+        }
+    }
+}
+
+let sub = 1
+function armadilha_subida(obs,y){
+    hitbox(obs)
+    obs.y += sub
+    if(obs.y == y){sub = 1}
+    if(obs.y == 400){sub = -1}
+    if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
+        if(personagem.y +personagem.h >= obs.y){
+            vida -= 1
+            personagem.x = 40
+        }
+    }
+}
+
+let ver = 0.5
+function armadilha_horizontal(obs,x1,x2){
+    hitbox(obs)
+    obs.x += ver
+    if(obs.x <= x1){ver = 0.5}
+    if(obs.x >= x2){ver = -0.5}
+    if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
+        if(personagem.y +personagem.h >= obs.y && personagem.y <= obs.y + obs.h){
+            vida -= 1
+            personagem.y = 340
+            personagem.x = 40
+        }
+    }
+}
+
+function lava(obs){
+    hitbox(obs)
+    if(personagem.y + personagem.h >= obs.y){
+        vida -= 1
+        personagem.y = 300 - personagem.h
+        personagem.x = 40
+    }
+}
+
+let x = 1
+function armadilha_dados(obs){
+    quadrado(obs)
+    obs.y += x
+    if(obs.y >= 400){
+        obs.y = 0
+    }
+    if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + 10 ){
+        if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
+            personagem.y = 300 - personagem.h
+            personagem.x = 40
+            vida -= 1
+        }
+    }
+}
+//------fases----------------------------------------------------------------------
 let contador_fases = 0
 
 function desenhar(){
@@ -52,102 +119,9 @@ function desenhar(){
     perda_vida()
     requestAnimationFrame(desenhar)
 }
-
-function hitbox(obs){
-    quadrado(obs)
-    if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + 10 ){
-        if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
-            vertical = 0
-            personagem.y = obs.y - personagem.h 
-            chao = true
-        }
-    }
-}
-
-let trap = new Image()
-trap.src = "../imagens_jogo/trap_espinho.png"
-
-let sub = 1
-function armadilha_subida(obs,y){
-    hitbox(obs)
-    obs.y += sub
-    if(obs.y == y){sub = 1}
-    if(obs.y == 400){sub = -1}
-    if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
-        if(personagem.y +personagem.h >= obs.y){
-            vida -= 1
-            personagem.x = 40
-        }
-    }
-}
-let ver = 0.5
-function armadilha_horizontal(obs,x1,x2){
-    hitbox(obs)
-    obs.x += ver
-    if(obs.x <= x1){ver = 0.5}
-    if(obs.x >= x2){ver = -0.5}
-    if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
-        if(personagem.y +personagem.h >= obs.y && personagem.y <= obs.y + obs.h){
-            vida -= 1
-            personagem.y = 340
-            personagem.x = 40
-        }
-    }
-}
-function lava(obs){
-    hitbox(obs)
-    if(personagem.y + personagem.h >= obs.y){
-        vida -= 1
-        personagem.y = 300 - personagem.h
-        personagem.x = 40
-    }
-}
-let dardo = new Image()
-dardo.src = "../imagens_jogo/dardo_veneno.png"
-
-let x = 1
-function armadilha_dados(obs){
-    quadrado(obs)
-    obs.y += x
-    if(obs.y >= 400){
-        obs.y = 0
-    }
-    if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + 10 ){
-        if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
-            personagem.y = 300 - personagem.h
-            personagem.x = 40
-            vida -= 1
-        }
-    }
-}
-
-//-------mudança de cenario-----------------------------------------------
-
+//-------cenario inicial--------------------------------------------------
 function cenario_inicial(){
-    quadrado(background1)
-    quadrado(logo1)
-}
-
-let b1 = new Image()
-b1.src = "../imagens_jogo/background_inicial.avif"
-
-let lo = new Image()
-lo.src = "../imagens_jogo/logo_projeto.png"
-
-let logo1 = {
-    x : 180,
-    y : 80,
-    w : 240,
-    h : 180,
-    img : lo
-}
-
-let background1 = {
-    x : 0,
-    y : 0,
-    w : 600,
-    h : 400,
-    img : b1
+    
 }
 //-------cenario1---------------------------------------------------------
 function cenario_1(){
@@ -182,7 +156,7 @@ let armadilha1 = {
     y : 390,
     w : 30,
     h : 400,
-    img : trap
+    color : "grey"
 }
 //-------cenario2---------------------------------------------------------
 function cenario_2(){
@@ -227,7 +201,7 @@ let parede = {
     y : 200,
     w : 20,
     h : 210,
-    img : trap
+    color : "grey"
 }
 let armadilha4 = {
     x : 210,
@@ -324,35 +298,35 @@ let dardo1 = {
     y : 0,
     w : 30,
     h : 30,
-    img : dardo
+    color : "green"
 }
 let dardo2 = {
     x : 300,
     y : 0,
     w : 30,
     h : 30,
-    img : dardo
+    color : "green"
 }
 let dardo3 = {
     x : 340,
     y : 0,
     w : 30,
     h : 30,
-    img : dardo
+    color : "green"
 }
 let dardo4 = {
     x : 380,
     y : 0,
     w : 30,
     h : 30,
-    img : dardo
+    color : "green"
 }
 let dardo5 = {
     x : 420,
     y : 0,
     w : 30,
     h : 30,
-    img : dardo
+    color : "green"
 }
 let plat4 = {
     x : 270,
@@ -389,33 +363,13 @@ let flor = {
     color : "cyan"
 }
 //-------personagens------------------------------------------------------
-let pose_padrao = new Image()
-pose_padrao.src = "../imagens_jogo/pose_padrao.png"
-
-let personagem_direita = new Image()
-personagem_direita.src = "../imagens_jogo/movimento_direita.png"
-
-let personagem_esquerda = new Image()
-personagem_esquerda.src = "../imagens_jogo/movimento_esquerda.png"
-
-let plo = new Image()
-plo.src = "../imagens_jogo/pulo.png"
-
 let personagem = {
     x : 40,
     y : 340,
     w : 40,
     h : 60,
-    img : pose_padrao
+    color : "yellow"
 }
-let habitante_vila = {
-    x : 450,
-    y : 340,
-    w : 40,
-    h : 60,
-    color : "blue",
-}
-
 //---------movimentação-------------------------------------------------------
 let vertical = 0;
 let gravidade = 0.1;
@@ -425,7 +379,6 @@ function pulo(){ //inicializa o pulo
     if(chao){
         vertical = -5
         chao = false
-        personagem.img = plo
     }
 }
 
@@ -456,38 +409,34 @@ document.addEventListener("keydown",function(evento){
     if(tecla == "w"){ pulo() }
     if(tecla == "d"){ 
         personagem.x += velocidadex
-        personagem.img = personagem_direita
     }
     if(tecla == "a"){ 
-        personagem.x -= velocidadex
-        personagem.img = personagem_esquerda 
+        personagem.x -= velocidadex 
     }
 })
 
-//sistema de vida
-let coracao = new Image()
-coracao.src = "../imagens_jogo/coracao.png"
+//---------sistema de vida-------------------------------------------
 
 let vida1 = {
     x : 20,
     y : 20,
     w : 20,
     h : 20,
-    img : coracao
+    color : "red"
 }
 let vida2 = {
     x : 60,
     y : 20,
     w : 20,
     h : 20,
-    img : coracao
+    color : "red"
 }
 let vida3 = {
     x : 100,
     y : 20,
     w : 20,
     h : 20,
-    img : coracao
+    color : "red"
 }
 
 let vida = 3

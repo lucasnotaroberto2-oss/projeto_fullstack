@@ -4,23 +4,17 @@ body{
 }
 .cabecalho{
     display: flex;
-}
-#titulo{
-    font-size: 50px;
-}
-#botao_voltar{
-    display: flex;
-    background-color: aqua;
-    color: aqua;
+    background-color: aliceblue;
+    flex-direction: column;
     justify-content: center;
-}
-#botao_voltar:hover{
-    color: black;
-    width: 150px;
 }
 a{
     text-decoration: none;
     color: black;
+    padding: 20px;
+}
+a:hover{
+    text-decoration: underline;
 }
 .criador{
     text-decoration: underline;
@@ -34,7 +28,7 @@ a{
     flex-direction: column;
 }
 .flex-container div{
-    background-color: aqua;
+    background-color: aliceblue;
     width: 250px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -50,4 +44,7 @@ td{
     display: flex;
     justify-content: center;
     padding: 80px;
+}
+img{
+    padding-top: 50px;
 }
