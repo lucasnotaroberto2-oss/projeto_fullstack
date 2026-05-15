@@ -1,0 +1,38 @@
+body{
+    background-color: dodgerblue;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    font-size: larger;
+    margin: 120px;
+}
+a{
+    text-decoration: none;
+    color :black;
+    font-family: 'Press Start 2P', cursive;
+}
+.corpo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    flex-direction: column;
+}
+.corpo div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(233, 208, 67);
+    border-color: rgb(239, 132, 39);
+    border-style: solid;
+    border-radius:5px;
+    width: 500px;
+    height: 100px;
+    font-size: 10px;
+}
+.corpo div:hover{
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    width: 550px;
+    height: 110px;
+    font-size: 15px;
+}
