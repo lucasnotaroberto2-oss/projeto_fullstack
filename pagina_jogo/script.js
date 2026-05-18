@@ -16,6 +16,12 @@ function quadrado(qua){
     }
 }
 
+function escrevermensagem(mensagem,x,y){
+    ctx.font = "30px 'Press Start 2P'";
+    ctx.fillStyle = "black";
+    ctx.fillText(mensagem, x, y);
+}
+
 function hitbox(obs){
     quadrado(obs)
     if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + obs.h ){
@@ -130,6 +136,15 @@ function desenhar(){
         }
         if(contador_fases == 5){
             cenario_5()
+            if(flor_templo && colisao(personagem,flor_templo)){
+                if(estrelas == 3){
+                    flor_templo = null
+                    escrevermensagem("voce coletou","a flor do templo!",250,200)
+                }
+                else{
+                    escrevermensagem("faltam","estrelas!",250,200)
+                }
+            }
         }
         quadrado(personagem)
     }
@@ -503,7 +518,62 @@ let plat4 = {
 }
 //-------cenario5---------------------------------------------------------
 function cenario_5(){
-    
+    quadrado(background_c5)
+    hitbox(p1_c5)
+    hitbox(p2_c5)
+    hitbox(p3_c5)
+    hitbox(p4_c5)
+    quadrado(altar)
+    quadrado(flor_templo)
+}
+let background_c5 = {
+    x:0,
+    y:0,
+    w:600,
+    h:400,
+    color:"orange"
+}
+let p1_c5 = {
+    x : 0,
+    y:380,
+    w:600,
+    h:20,
+    color:"brown"
+}
+let p2_c5 = {
+    x : 0,
+    y:360,
+    w:200,
+    h:20,
+    color:"brown"
+}
+let p3_c5 = {
+    x : 0,
+    y:340,
+    w:150,
+    h:20,
+    color:"brown"
+}
+let p4_c5 = {
+    x : 0,
+    y:320,
+    w:100,
+    h:20,
+    color:"brown"
+}
+let altar = {
+    x:400,
+    y:330,
+    w:100,
+    h:50,
+    color:"grey"
+}
+let flor_templo = {
+    x : 420,
+    y :270,
+    w:60,
+    h:60,
+    color:"cyan"
 }
 //-------personagens------------------------------------------------------
 let personagem = {
