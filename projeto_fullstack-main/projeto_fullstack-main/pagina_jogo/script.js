@@ -36,10 +36,9 @@ function colisao(a,b){
 }
 
 let dir = 1
-let sub = 1
-function armadilha_subida(obs,y,y2){
+function armadilha_subida(obs,y,y2,vel){
     hitbox(obs)
-    obs.y += sub * dir
+    obs.y += vel * dir
     if(obs.y <= y){dir = 1}
     if(obs.y >= y2){dir = -1}
     if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
@@ -88,6 +87,17 @@ function armadilha_dados(obs,z){
             vida -= 1
         }
     }
+}
+let z = 0.5
+function plataforma_movel(obs,x1,x2){
+    quadrado(obs)
+    if(obs,colisao(personagem,obs)){
+        personagem.y = obs.y - personagem.h
+        chao = true
+    }
+    if(obs.x<=x1){z = 1}
+    if(obs.x + obs.w>=x2){z = -1}
+    obs.x += 1 * z
 }
 //------fases----------------------------------------------------------------------
 let contador_fases = 0
@@ -143,7 +153,7 @@ function cenario_1(){
     hitbox(p3_c1)
     hitbox(p4_c1)
     hitbox(p5_c1)
-    armadilha_subida(armadilha_vert_c1,220,400)
+    armadilha_subida(armadilha_vert_c1,220,400,1)
     armadilha_horizontal(armadilha_hor1_c1,50,450,1)
     armadilha_horizontal(armadilha_hor2_c1,90,530,2)
     quadrado(estrela1)
@@ -232,9 +242,9 @@ function cenario_2(){
     hitbox(p5_c2)
     hitbox(p6_c2)
     hitbox(p7_c2)
-    armadilha_subida(armadilha_vert1_c2,340,450)
-    armadilha_subida(armadilha_vert2_c2,340,450)
-    armadilha_subida(armadilha_vert3_c2,340,450)
+    armadilha_subida(armadilha_vert1_c2,340,450,1.1)
+    armadilha_subida(armadilha_vert2_c2,340,450,1.2)
+    armadilha_subida(armadilha_vert3_c2,340,450,1.3)
 }
 let estrela2 = {
     x : 40,
@@ -343,9 +353,66 @@ let dardo3_c2 = {
 }
 //------cenario3---------------------------------------------------------
 function cenario_3(){
+    quadrado(background_c3)
+    quadrado(estrela3)
+    hitbox(p1_c3)
+    hitbox(p2_c3)
+    hitbox(p3_c3)
+    hitbox(p4_c3)
+    plataforma_movel(plat_movel,275,550)
+}
+let background_c3 = {
+    x : 0,
+    y : 0,
+    w : 600,
+    h : 400,
+    color : "orange"
+}
+let p1_c3 = {
+    x : 0,
+    y : 150,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let p2_c3 = {
+    x : 550,
+    y : 300,
+    w : 50,
+    h : 100,
+    color : "brown"
+}
+let p3_c3 = {
+    x : 150,
+    y : 200,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let p4_c3 = {
+    x : 350,
+    y : 50,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let estrela3 = {
+    x : 375,
+    y : 5,
+    w : 40,
+    h : 40,
+    color : "yellow"
+}
+let plat_movel = {
+    x : 350,
+    y : 150,
+    w : 100,
+    h : 20,
+    color : "brown"
 }
 //-------cenario4---------------------------------------------------------
 function cenario_4(){
+    quadrado(background_c4)
     hitbox(plat1)
     hitbox(plat2)
     lava(lava1)
@@ -356,6 +423,13 @@ function cenario_4(){
     armadilha_dados(dardo3,400)
     armadilha_dados(dardo4,400)
     armadilha_dados(dardo5,400)
+}
+let background_c4 = {
+    x : 0,
+    y : 0,
+    w : 600,
+    h : 400,
+    color : "orange"
 }
 let plat1 = {
     x : 0,
@@ -376,7 +450,7 @@ let lava1 = {
     y : 380,
     w : 520,
     h : 20,
-    color : "orange"
+    color : "red"
 }
 let plat3 = {
     x : 160,
