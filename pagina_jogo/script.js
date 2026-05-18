@@ -5,6 +5,9 @@ let ctx = canvas.getContext("2d")
 
 //----------------------------------------------------------------------
 function quadrado(qua){
+    if(!qua){
+        return
+    }
     if(qua.img){
         ctx.drawImage(qua.img, qua.x, qua.y, qua.w, qua.h)
     } else {
@@ -15,7 +18,7 @@ function quadrado(qua){
 
 function hitbox(obs){
     quadrado(obs)
-    if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + 10 ){
+    if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + obs.h ){
         if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
             vertical = 0
             personagem.y = obs.y - personagem.h 
@@ -23,13 +26,21 @@ function hitbox(obs){
         }
     }
 }
+function colisao(a,b){
+    return (
+        a.x < b.x + b.w &&
+        a.x + a.w > b.x &&
+        a.y < b.y + b.h &&
+        a.y + a.h > b.y
+    )
+}
 
-let sub = 1
-function armadilha_subida(obs,y){
+let dir = 1
+function armadilha_subida(obs,y,y2,vel){
     hitbox(obs)
-    obs.y += sub
-    if(obs.y == y){sub = 1}
-    if(obs.y == 400){sub = -1}
+    obs.y += vel * dir
+    if(obs.y <= y){dir = 1}
+    if(obs.y >= y2){dir = -1}
     if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
         if(personagem.y +personagem.h >= obs.y){
             vida -= 1
@@ -38,12 +49,12 @@ function armadilha_subida(obs,y){
     }
 }
 
-let ver = 0.5
-function armadilha_horizontal(obs,x1,x2){
+let direcao = 1
+function armadilha_horizontal(obs,x1,x2,vel){
     hitbox(obs)
-    obs.x += ver
-    if(obs.x <= x1){ver = 0.5}
-    if(obs.x >= x2){ver = -0.5}
+    obs.x += vel * direcao
+    if(obs.x <= x1){direcao = 1}
+    if(obs.x >= x2){direcao = -1}
     if(personagem.x + personagem.w >= obs.x && personagem.x <= obs.x + obs.w){
         if(personagem.y +personagem.h >= obs.y && personagem.y <= obs.y + obs.h){
             vida -= 1
@@ -63,10 +74,10 @@ function lava(obs){
 }
 
 let x = 1
-function armadilha_dados(obs){
+function armadilha_dados(obs,z){
     quadrado(obs)
     obs.y += x
-    if(obs.y >= 400){
+    if(obs.y >= z){
         obs.y = 0
     }
     if(personagem.y + personagem.h >= obs.y && personagem.y + personagem.h <= obs.y + 10 ){
@@ -76,6 +87,17 @@ function armadilha_dados(obs){
             vida -= 1
         }
     }
+}
+let z = 0.5
+function plataforma_movel(obs,x1,x2){
+    quadrado(obs)
+    if(obs,colisao(personagem,obs)){
+        personagem.y = obs.y - personagem.h
+        chao = true
+    }
+    if(obs.x<=x1){z = 1}
+    if(obs.x + obs.w>=x2){z = -1}
+    obs.x += 1 * z
 }
 //------fases----------------------------------------------------------------------
 let contador_fases = 0
@@ -116,154 +138,298 @@ function desenhar(){
         contador_fases = 0
         personagem.x = 40
     }
+    coletar_estrela()
     perda_vida()
     requestAnimationFrame(desenhar)
 }
 //-------cenario inicial--------------------------------------------------
 function cenario_inicial(){
-    
 }
 //-------cenario1---------------------------------------------------------
 function cenario_1(){
-    hitbox(obstaculo1)
-    hitbox(obstaculo2)
-    hitbox(obstaculo3)
-    armadilha_subida(armadilha1,200)
+    quadrado(background_c1)
+    hitbox(p1_c1)
+    hitbox(p2_c1)
+    hitbox(p3_c1)
+    hitbox(p4_c1)
+    hitbox(p5_c1)
+    armadilha_subida(armadilha_vert_c1,220,400,1)
+    armadilha_horizontal(armadilha_hor1_c1,50,450,1)
+    armadilha_horizontal(armadilha_hor2_c1,90,530,2)
+    quadrado(estrela1)
 }
-let obstaculo1 = {
-    x : 200,
-    y : 200,
-    w : 100,
-    h : 20,
-    color : "brown"
+let background_c1 = {
+    x : 0,
+    y : 0,
+    w : 600,
+    h : 400,
+    color : "orange"
 }
-let obstaculo2 = {
-    x : 100,
-    y : 250,
-    w : 100,
-    h : 20,
-    color : "brown"
-}
-let obstaculo3 = {
+let p1_c1 = {
     x : 0,
     y : 300,
     w : 100,
     h : 20,
     color : "brown"
 }
-let armadilha1 = {
-    x : 350,
-    y : 390,
+let p2_c1 = {
+    x : 150,
+    y : 240,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let p3_c1 = {
+    x : 250,
+    y : 190,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let p4_c1 = {
+    x : 0,
+    y : 90,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let p5_c1 = {
+    x : 250,
+    y : 90,
+    w : 250,
+    h : 20,
+    color : "brown"
+}
+let armadilha_vert_c1 = {
+    x : 110,
+    y : 350,
     w : 30,
-    h : 400,
+    h : 180,
+    color: "grey"
+}
+let armadilha_hor1_c1 = {
+    x : 250,
+    y : 120,
+    w : 40,
+    h : 40,
     color : "grey"
+}
+let armadilha_hor2_c1 = {
+    x : 300,
+    y : 20,
+    w : 40,
+    h : 40,
+    color : "grey"
+}
+let estrela1 = {
+    x : 380,
+    y : 20,
+    w : 50,
+    h : 50,
+    color : "yellow"
 }
 //-------cenario2---------------------------------------------------------
 function cenario_2(){
-    hitbox(obstaculo4)
-    armadilha_horizontal(armadilha3,50,540)
-    armadilha_horizontal(armadilha2,50,)
+    quadrado(background_c2)
+    quadrado(estrela2)
+    armadilha_dados(dardo1_c2,225)
+    armadilha_dados(dardo2_c2,170)
+    armadilha_dados(dardo3_c2,190)
+    hitbox(p1_c2)
+    hitbox(p2_c2)
+    hitbox(p3_c2)
+    hitbox(p4_c2)
+    hitbox(p5_c2)
+    hitbox(p6_c2)
+    hitbox(p7_c2)
+    armadilha_subida(armadilha_vert1_c2,340,450,1.1)
+    armadilha_subida(armadilha_vert2_c2,340,450,1.2)
+    armadilha_subida(armadilha_vert3_c2,340,450,1.3)
 }
-let armadilha2 = {
-    x : 200,
-    y : 320,
-    w : 40,
-    h : 40,
-    color : "grey"
+let estrela2 = {
+    x : 40,
+    y : 50,
+    w : 50,
+    h : 50,
+    color : "yellow"
 }
-let armadilha3 = {
-    x : 400,
-    y : 240,
-    w : 40,
-    h : 40,
-    color : "grey"
+let background_c2 = {
+    x : 0,
+    y : 0,
+    w : 600,
+    h : 400,
+    color : "orange"
 }
-let obstaculo4 = {
-    x : 50,
-    y : 290,
-    w : 300,
+let p1_c2 = {
+    x : 0,
+    y : 100,
+    w : 100,
     h : 20,
-    color : "brown"   
+    color : "brown"
+}
+let p2_c2 = {
+    x : 150,
+    y : 150,
+    w : 300,
+    h : 100,
+    color : "brown"
+}
+let p3_c2 = {
+    x : 450,
+    y : 150,
+    w : 150,
+    h : 20,
+    color : "brown"
+}
+let p4_c2 = {
+    x : 500,
+    y : 200,
+    w : 50,
+    h : 20,
+    color : "brown"
+}
+let p5_c2 = {
+    x : 500,
+    y : 250,
+    w : 50,
+    h : 20,
+    color : "brown"
+}
+let p6_c2 = {
+    x : 500,
+    y : 300,
+    w : 50,
+    h : 20,
+    color : "brown"
+}
+let p7_c2 = {
+    x : 500,
+    y : 350,
+    w : 50,
+    h : 20,
+    color : "brown"
+}
+let armadilha_vert1_c2 = {
+    x : 175,
+    y : 400,
+    w : 25,
+    h : 60,
+    color : "grey"
+}
+let armadilha_vert2_c2 = {
+    x : 275,
+    y : 400,
+    w : 25,
+    h : 60,
+    color : "grey"
+}
+let armadilha_vert3_c2 = {
+    x : 375,
+    y : 400,
+    w : 25,
+    h : 60,
+    color : "grey"
+}
+let dardo1_c2 = {
+    x : 150,
+    y : 0,
+    w : 25,
+    h : 25,
+    color : "green"
+}
+let dardo2_c2 = {
+    x : 250,
+    y : 0,
+    w : 25,
+    h : 25,
+    color : "green"
+}
+let dardo3_c2 = {
+    x : 350,
+    y : 0,
+    w : 25,
+    h : 25,
+    color : "green"
 }
 //------cenario3---------------------------------------------------------
 function cenario_3(){
-    hitbox(plataforma1)
-    hitbox(plataforma2)
-    hitbox(plataforma3)
-    hitbox(plataforma4)
-    hitbox(plataforma5)
-    armadilha_subida(parede,190)
-    armadilha_horizontal(armadilha4,70,220)
-    armadilha_horizontal(armadilha5)
+    quadrado(background_c3)
+    quadrado(estrela3)
+    hitbox(p1_c3)
+    hitbox(p2_c3)
+    hitbox(p3_c3)
+    hitbox(p4_c3)
+    plataforma_movel(plat_movel,275,550)
 }
-let parede = {
-    x : 300,
+let background_c3 = {
+    x : 0,
+    y : 0,
+    w : 600,
+    h : 400,
+    color : "orange"
+}
+let p1_c3 = {
+    x : 0,
+    y : 150,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let p2_c3 = {
+    x : 550,
+    y : 300,
+    w : 50,
+    h : 100,
+    color : "brown"
+}
+let p3_c3 = {
+    x : 150,
     y : 200,
-    w : 20,
-    h : 210,
-    color : "grey"
+    w : 100,
+    h : 20,
+    color : "brown"
 }
-let armadilha4 = {
-    x : 210,
-    y : 250,
+let p4_c3 = {
+    x : 350,
+    y : 50,
+    w : 100,
+    h : 20,
+    color : "brown"
+}
+let estrela3 = {
+    x : 375,
+    y : 5,
     w : 40,
     h : 40,
-    color : "grey"
+    color : "yellow"
 }
-let plataforma1 = {
-    x : 80,
-    y : 300,
-    w : 130,
+let plat_movel = {
+    x : 350,
+    y : 150,
+    w : 100,
     h : 20,
     color : "brown"
-}
-let plataforma2 = {
-    x : 60,
-    y : 200,
-    w : 130,
-    h : 20,
-    color : "brown"
-}
-let plataforma3 = {
-    x : 120,
-    y : 100,
-    w : 130,
-    h : 20,
-    color : "brown"
-}
-let plataforma4 = {
-    x : 270,
-    y : 170,
-    w : 140,
-    h : 20,
-    color : "brown"
-}
-let plataforma5 = {
-    x : 460,
-    y : 300,
-    w : 210,
-    h : 140,
-    color : "brown"
-}
-let armadilha5 = {
-    x : 510,
-    y : 240,
-    w : 40,
-    h : 40,
-    color : "grey"
 }
 //-------cenario4---------------------------------------------------------
 function cenario_4(){
+    quadrado(background_c4)
     hitbox(plat1)
     hitbox(plat2)
     lava(lava1)
     hitbox(plat3)
     hitbox(plat4)
-    armadilha_dados(dardo1)
-    armadilha_dados(dardo2)
-    armadilha_dados(dardo3)
-    armadilha_dados(dardo4)
-    armadilha_dados(dardo5)
+    armadilha_dados(dardo1,400)
+    armadilha_dados(dardo2,400)
+    armadilha_dados(dardo3,400)
+    armadilha_dados(dardo4,400)
+    armadilha_dados(dardo5,400)
+}
+let background_c4 = {
+    x : 0,
+    y : 0,
+    w : 600,
+    h : 400,
+    color : "orange"
 }
 let plat1 = {
     x : 0,
@@ -284,7 +450,7 @@ let lava1 = {
     y : 380,
     w : 520,
     h : 20,
-    color : "orange"
+    color : "red"
 }
 let plat3 = {
     x : 160,
@@ -337,30 +503,7 @@ let plat4 = {
 }
 //-------cenario5---------------------------------------------------------
 function cenario_5(){
-    hitbox(p1)
-    quadrado(altar)
-    quadrado(flor)
-}
-let p1 = {
-    x: 0,
-    y : 300,
-    w : 600,
-    h : 100,
-    color : "brown"
-}
-let altar = {
-    x : 270,
-    y : 270,
-    w : 60,
-    h : 30,
-    color : "grey"
-}
-let flor = {
-    x : 280,
-    y : 230,
-    w : 40,
-    h : 40,
-    color : "cyan"
+    
 }
 //-------personagens------------------------------------------------------
 let personagem = {
@@ -454,5 +597,56 @@ function perda_vida(){
         quadrado(vida1)
     }
 }
-
+//------sistema de coletaveis--------------------------------------------------------------------------------
+let estrela1_hud = {
+    x : 560,
+    y : 20,
+    w : 20,
+    h : 20,
+    color : "yellow"
+}
+let estrela2_hud = {
+    x : 520,
+    y : 20,
+    w : 20,
+    h : 20,
+    color : "yellow"
+}
+let estrela3_hud = {
+    x : 480,
+    y : 20,
+    w : 20,
+    h : 20,
+    color : "yellow"
+}
+estrelas = 0
+function coletar_estrela(){
+    if(contador_fases == 1){
+        if(estrela1 && colisao(personagem,estrela1)){
+            estrelas += 1
+            estrela1 = null
+        }    
+    }
+    if(contador_fases == 2){
+        if(estrela2 && colisao(personagem,estrela2)){
+            estrelas += 1
+            estrela2 = null
+        }
+    }
+    if(contador_fases == 3){
+        if(estrela3 && colisao(personagem,estrela3)){
+            estrelas += 1
+            estrela3 = null
+        }
+    }
+    if(estrelas >= 1){
+        quadrado(estrela1_hud)
+    }
+    if(estrelas >= 2){
+        quadrado(estrela2_hud)
+    }
+    if(estrelas >= 3){
+        quadrado(estrela3_hud)
+    }
+}
 desenhar()

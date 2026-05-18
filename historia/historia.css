@@ -3,6 +3,7 @@ body{
     text-align: center;
     font-family: 'Press Start 2P', cursive;
     font-size: larger;
+    margin: 120px;
 }
 a{
     text-decoration: none;
@@ -27,11 +28,11 @@ a{
     border-radius:5px;
     width: 500px;
     height: 100px;
-    font-size: large;
+    font-size: 10px;
 }
 .corpo div:hover{
     box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
     width: 550px;
     height: 110px;
-    font-size: larger;
+    font-size: 15px;
 }
